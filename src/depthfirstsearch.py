@@ -3,7 +3,7 @@ from pprint import *
 from src.utils import *
 
 
-class DepthForSearch:
+class DepthFirstSearch:
     """ """
 
     def __init__(self, model, optimize):
@@ -26,20 +26,6 @@ class DepthForSearch:
 
         self.found = 0
         self.confirmed = 0
-
-    # def modelize_2(self, strategy) -> int:
-    #     """give a strategy compute the score """
-
-    #     ans = self.model.trips.get(strategy, -1)
-    #     if ans == -1:
-    #         return -1
-
-    #     if self.optimize == "time":
-    #         return ans[0]
-    #     if self.optimize == "cost":
-    #         return ans[1]
-
-    #     return sum(ans)
 
     def find_possible_dests(self, dep):
         """given a departure give all the possible destinations """

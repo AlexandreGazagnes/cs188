@@ -3,7 +3,8 @@ from pprint import pprint, pformat
 
 from src.modele import Model
 from src.bruteforce import BruteForce
-from src.depthforsearch import DepthForSearch
+from src.depthfirstsearch import DepthFirstSearch
+from src.breadthfirstsearch import BredthFirstSearch
 
 
 def main():
@@ -12,7 +13,7 @@ def main():
     model = Model()
 
     # Depth
-    depth = DepthForSearch(model, optimize="time")
+    depth = DepthFirstSearch(model, optimize="time")
     depth.run()
 
 
