@@ -5,7 +5,8 @@ from itertools import product
 
 class BruteForce:
 
-    ALLOWED_MAX_DEPTH = 8
+    # DEPRECATED
+    # ALLOWED_MAX_DEPTH = 8
 
     def __init__(self, model, optimize):
 
@@ -39,17 +40,21 @@ class BruteForce:
         """give all strategies for a certain depht (ie the number of cities visited)
         compute cardinal product"""
 
-        assert depth in range(2, self.ALLOWED_MAX_DEPTH)
+        # assert depth in range(2, self.ALLOWED_MAX_DEPTH)
 
-        depth_list = {
-            i: [
-                self.all_towns,
-            ]
-            * i
-            for i in range(2, self.ALLOWED_MAX_DEPTH)
-        }
+        # depth_list = {
+        #     i: [
+        #         self.all_towns,
+        #     ]
+        #     * i
+        #     for i in range(2, self.ALLOWED_MAX_DEPTH)
+        # }
 
-        all_strategies = list(product(*depth_list[depth]))
+        strat_list = [
+            self.all_towns,
+        ] * depth
+
+        all_strategies = list(product(*strat_list))
 
         # filter first and last
         all_strategies = [s for s in all_strategies if s[0] == self.model.dep]
