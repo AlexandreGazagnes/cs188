@@ -5,13 +5,13 @@ from src.modele import modele
 from src.utils import *
 
 
-LOG_LEVEL = logging.INFO
+LOG_LEVEL = logging.WARNING
 
 
 logging.basicConfig(filename="example.log", level=LOG_LEVEL, filemode="w+")
 
 
-def main():
+def main(optimize="time"):
     """ """
 
     all_towns = extract_all_town(modele)
@@ -25,10 +25,7 @@ def main():
     )
     logging.info(pformat(valid_strategies))
 
-    best_strategies = find_best_strat(valid_strategies)
+    best_strategies = find_best_strat(valid_strategies, optimize=optimize)
     logging.info(pformat(best_strategies))
 
     pprint(best_strategies)
-
-
-main()

@@ -54,12 +54,16 @@ def cardinalize_various_depth_strategies(all_towns, depth_list):
 
 def modelize_2(strategy: list, optimize: str = "both") -> int:
 
-    if optimize == "time":
-        return modele.get(strategy, -1)[0]
-    if optimize == "cost":
-        return modele.get(strategy, -1)[1]
+    ans = modele.get(strategy, -1)
+    if ans == -1:
+        return -1
 
-    return sum(modele.get(strategy, -1))
+    if optimize == "time":
+        return ans[0]
+    if optimize == "cost":
+        return ans[1]
+
+    return sum(ans)
 
 
 def explode_strategy_in_pairs(strategy):
@@ -98,10 +102,10 @@ def select_only_valid_strategies(strategies_list: list) -> list:
     return ok_strategies
 
 
-def find_best_strat(strategies_list):
+def find_best_strat(strategies_list, optimize="time"):
     """ """
 
-    scores = [modelize_more((s)) for s in strategies_list]
+    scores = [modelize_more(s, optimize=optimize) for s in strategies_list]
     best_strategies = list(zip(scores, strategies_list))
 
     return sorted(best_strategies)
