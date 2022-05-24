@@ -30,4 +30,5 @@ class Model:
     dep = "rouen"
     dest = "bonniere"
     shortest_path = 3
-    longest_path = 5
+    longest_path = 7
+    valid_strategies = 7

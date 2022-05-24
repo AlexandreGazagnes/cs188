@@ -49,7 +49,7 @@ class BruteForce:
         all_strategies = [s for s in all_strategies if s[0] == self.model.dep]
         all_strategies = [s for s in all_strategies if s[-1] == self.model.dest]
 
-        all_strategies = list(set(all_strategies))
+        all_strategies = sorted(list(set(all_strategies)))
         self.all_strategies = all_strategies
 
         return all_strategies
@@ -63,7 +63,7 @@ class BruteForce:
         for depth in depth_list:
             all_strategies.extend(self.cardinalize_one_depth_strategies(depth))
 
-        all_strategies = list(set(all_strategies))
+        all_strategies = sorted(list(set(all_strategies)))
         self.all_strategies = all_strategies
 
         return all_strategies
@@ -88,7 +88,7 @@ class BruteForce:
         trips = [(i, j) for i, j in self.model.trips.keys()]
         trips = [j for i, j in trips if i == dep]
 
-        return trips
+        return sorted(trips)
 
     def explode_strategy_in_pairs(self, strategy):
         """transform [paris, rouen, lyon] in [(paris, rouen), (rouen,lyon )] """
@@ -121,6 +121,7 @@ class BruteForce:
             strategy for strategy in self.all_strategies if self.modelize(strategy) >= 0
         ]
 
+        ok_strategies = sorted(ok_strategies)
         self.valid_strategies = ok_strategies
         return ok_strategies
 
