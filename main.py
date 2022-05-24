@@ -4,7 +4,7 @@ from pprint import pprint, pformat
 from src.modele import Model
 from src.bruteforce import BruteForce
 from src.depthfirstsearch import DepthFirstSearch
-from src.breadthfirstsearch import BredthFirstSearch
+from src.breadthfirstsearch import BreadthFirstSearch
 
 
 def main():
