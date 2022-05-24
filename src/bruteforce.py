@@ -1,7 +1,5 @@
 from itertools import product
 
-# from src.modele import *
-
 
 class BruteForce:
     """ """
