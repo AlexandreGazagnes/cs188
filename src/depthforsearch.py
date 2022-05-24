@@ -47,7 +47,7 @@ class DepthForSearch:
         trips = [(i, j) for i, j in self.model.trips.keys()]
         trips = [j for i, j in trips if i == dep]
 
-        return trips
+        return sorted(trips)
 
     def eval_strategy(self):
         """ """
