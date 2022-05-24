@@ -1,13 +1,14 @@
-from src.modele import modele
-from src.utils import *
-
 from pprint import pprint, pformat
 import logging
+
+from src.modele import modele
+from src.utils import *
 
 
 LOG_LEVEL = logging.INFO
 
-logging.basicConfig(filename="example.log", level=LOG_LEVEL)
+
+logging.basicConfig(filename="example.log", level=LOG_LEVEL, filemode="w+")
 
 
 def main():

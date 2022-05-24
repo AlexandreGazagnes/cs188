@@ -52,8 +52,14 @@ def cardinalize_various_depth_strategies(all_towns, depth_list):
     return list(set(all_strategies))
 
 
-def modelize_2(strategy: list) -> int:
-    return modele.get(strategy, -1)
+def modelize_2(strategy: list, optimize: str = "both") -> int:
+
+    if optimize == "time":
+        return modele.get(strategy, -1)[0]
+    if optimize == "cost":
+        return modele.get(strategy, -1)[1]
+
+    return sum(modele.get(strategy, -1))
 
 
 def explode_strategy_in_pairs(strategy):
@@ -62,7 +68,7 @@ def explode_strategy_in_pairs(strategy):
     return [(strategy[i], strategy[i + 1]) for i in range(len(strategy) - 1)]
 
 
-def modelize_more(strategy: list) -> int:
+def modelize_more(strategy: list, optimize: str = "time") -> int:
     """ """
 
     # check
@@ -70,11 +76,11 @@ def modelize_more(strategy: list) -> int:
 
     # if 2
     if len(strategy) == 2:
-        return modelize_2(strategy)
+        return modelize_2(strategy, optimize=optimize)
 
     # else
     strategy_pairs = explode_strategy_in_pairs(strategy)
-    strategy_results = [modelize_2(s) for s in strategy_pairs]
+    strategy_results = [modelize_2(s, optimize=optimize) for s in strategy_pairs]
 
     if -1 in strategy_results:
         return -1
