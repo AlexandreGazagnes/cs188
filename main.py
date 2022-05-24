@@ -2,7 +2,7 @@ import logging
 from pprint import pprint, pformat
 
 from src.modele import Model
-from src.utils import BruteForce
+from src.bruteforce import BruteForce
 
 
 def main(optimize="time"):
