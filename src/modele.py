@@ -20,6 +20,10 @@ modele = {
     ("paris", "bonniere"): 2,
     ("versailles", "bonniere"): 1.5,
     ("lyon", "bonniere"): 5,
+    ("paris", "montargis"): 1.5,
+    ("versailles", "montargis"): 1.2,
+    # level 3
+    ("montargis", "bonniere"): 0.35,
 }
 
 

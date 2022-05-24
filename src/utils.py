@@ -22,7 +22,7 @@ def cardinalize_one_depth_strategies(all_towns, depth=2):
     """give all strategies for a certain depht (ie the number of cities visited)
     compute cardinal product"""
 
-    depth_max = 6
+    depth_max = 7
     assert depth in range(2, depth_max)
 
     depth_list = {
