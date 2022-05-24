@@ -4,11 +4,10 @@ from itertools import product
 
 
 class BruteForce:
-
-    # DEPRECATED
-    # ALLOWED_MAX_DEPTH = 8
+    """ """
 
     def __init__(self, model, optimize):
+        """ """
 
         # args
         self.model = model
@@ -39,16 +38,6 @@ class BruteForce:
     def cardinalize_one_depth_strategies(self, depth=2):
         """give all strategies for a certain depht (ie the number of cities visited)
         compute cardinal product"""
-
-        # assert depth in range(2, self.ALLOWED_MAX_DEPTH)
-
-        # depth_list = {
-        #     i: [
-        #         self.all_towns,
-        #     ]
-        #     * i
-        #     for i in range(2, self.ALLOWED_MAX_DEPTH)
-        # }
 
         strat_list = [
             self.all_towns,
@@ -106,7 +95,7 @@ class BruteForce:
 
         return [(strategy[i], strategy[i + 1]) for i in range(len(strategy) - 1)]
 
-    def modelize_more(self, strategy: list) -> int:
+    def modelize(self, strategy: list) -> int:
         """given a strategy with various towns, explode in pairs on town to town, then compute the score """
 
         # check
@@ -129,9 +118,7 @@ class BruteForce:
         """given a list of various strategies select permited by the model possible strategies  """
 
         ok_strategies = [
-            strategy
-            for strategy in self.all_strategies
-            if self.modelize_more(strategy) >= 0
+            strategy for strategy in self.all_strategies if self.modelize(strategy) >= 0
         ]
 
         self.valid_strategies = ok_strategies
@@ -140,10 +127,10 @@ class BruteForce:
     def modelize_strategies(self):
         """given a list of validated stragies compute sthe score for each one """
 
-        scores = [self.modelize_more(s) for s in self.valid_strategies]
+        scores = [self.modelize(s) for s in self.valid_strategies]
         scores = [round(i, 4) for i in scores]
-        modelized_strategies = list(zip(scores, self.valid_strategies))
 
+        modelized_strategies = list(zip(scores, self.valid_strategies))
         modelized_strategies = sorted(modelized_strategies)
         self.modelized_strategies = modelized_strategies
 
