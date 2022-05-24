@@ -149,3 +149,14 @@ class BruteForce:
         self.best_strategies = best_strategies
 
         return best_strategies
+
+    def run(self):
+        """ """
+
+        _ = self.extract_all_town()
+        _ = self.cardinalize_all_depth_strategies()
+        _ = self.select_only_valid_strategies()
+        _ = self.modelize_strategies()
+        _ = self.find_best_strategies()
+
+        return None

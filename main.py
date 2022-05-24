@@ -5,7 +5,7 @@ from src.modele import Model
 from src.bruteforce import BruteForce
 
 
-def main(optimize="time"):
+def main(optimize):
     """ """
 
     # model
@@ -13,33 +13,29 @@ def main(optimize="time"):
 
     # Brut
     brut = BruteForce(model, optimize=optimize)
+    brut.run()
 
     # all_towns
-    all_towns = brut.extract_all_town()
-    logging.debug(pformat(all_towns))
-    logging.warning(f"len all_towns is {len(all_towns)} ")
+    logging.debug(pformat(brut.all_towns))
+    logging.warning(f"len all_towns is {len(brut.all_towns)} ")
 
     # all_strategies
-    all_strategies = brut.cardinalize_all_depth_strategies()
-    logging.debug(pformat(all_strategies))
-    logging.warning(f"len all_strategies is {len(all_strategies)} ")
+    logging.debug(pformat(brut.all_strategies))
+    logging.warning(f"len all_strategies is {len(brut.all_strategies)} ")
 
     # valid_strategies
-    valid_strategies = brut.select_only_valid_strategies()
-    logging.debug(pformat(valid_strategies))
-    logging.warning(f"len valid_strategies is {len(valid_strategies)} ")
+    logging.debug(pformat(brut.valid_strategies))
+    logging.warning(f"len valid_strategies is {len(brut.valid_strategies)} ")
 
     # modelized_strategies
-    modelized_strategies = brut.modelize_strategies()
-    logging.info(pformat(modelized_strategies))
-    logging.warning(f"len modelized_strategies is {len(modelized_strategies)} ")
+    logging.info(pformat(brut.modelized_strategies))
+    logging.warning(f"len modelized_strategies is {len(brut.modelized_strategies)} ")
 
     # best_strategies
-    best_strategies = brut.find_best_strategies()
-    logging.info(pformat(best_strategies))
-    logging.warning(f"len best_strategies is {len(best_strategies)} ")
+    logging.info(pformat(brut.best_strategies))
+    logging.warning(f"len best_strategies is {len(brut.best_strategies)} ")
 
-    return best_strategies
+    return brut.best_strategies
 
 
 if __name__ == "__main__":
