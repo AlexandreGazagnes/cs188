@@ -6,31 +6,17 @@ from src.bruteforce import BruteForce
 from src.depthforsearch import DepthForSearch
 
 
-def main():
+def main(optimize):
     # Model
     model = Model()
 
     # Depth
-    depth = DepthForSearch(model, optimize="time")
+    depth = BruteForce(model, optimize=optimize)
     depth.run()
-
-    for attr in [
-        "active_strategy",
-        "queued_strategies",
-        "evaluated_strategies",
-        "winning_strategies",
-    ]:
-
-        logging.debug(f"\n\n\n----{attr.upper()}---- ")
-        li = getattr(depth, attr)
-        logging.debug(pformat(li))
-        logging.warning(f"len active_strategy is {len(li)} ")
 
 
 if __name__ == "__main__":
 
-    main()
-
-    # for opt in ["time", "cost", "both"]:
-    #     logging.warning(f"\n\n\ncost to optpimize is -- {opt.upper()} --\n{'-'*54}")
-    #     print(f"best for {opt} --> {main(optimize=opt)}")
+    for opt in ["time", "cost", "both"]:
+        logging.warning(f"\n\n\ncost to optpimize is -- {opt.upper()} --\n{'-'*54}")
+        print(f"best for {opt} --> {main(optimize=opt)}")

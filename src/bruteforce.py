@@ -1,4 +1,6 @@
 from itertools import product
+import logging
+from pprint import *
 
 
 class BruteForce:
@@ -148,6 +150,21 @@ class BruteForce:
 
         return best_strategies
 
+    def log(self):
+        """ """
+        for attr in [
+            "all_towns",
+            "valid_strategies",
+            "modelized_strategies",
+            "best_strategies",
+        ]:
+
+            li = getattr(self, attr)
+            logging.warning(pformat(li))
+            logging.warning(f"len {attr} is {len(li)} ")
+
+        logging.warning("\n\n\n\n")
+
     def run(self):
         """ """
 
@@ -156,5 +173,6 @@ class BruteForce:
         _ = self.select_only_valid_strategies()
         _ = self.modelize_strategies()
         _ = self.find_best_strategies()
+        self.log()
 
         return None
