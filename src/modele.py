@@ -24,7 +24,7 @@ class Model:
         # level 4
         ("nogent", "chatillon"): (0.1, 0),
         ("chatillon", "bonniere"): (0.1, 0),
-        ("saint-maurice", "chatillon"): (0.15, 0),
+        ("saint-maurice", "bonniere"): (0.15, 0),
     }
 
     dep = "rouen"
