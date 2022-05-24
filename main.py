@@ -6,10 +6,10 @@ from src.bruteforce import BruteForce
 from src.depthforsearch import DepthForSearch
 
 
-# model
+# Model
 model = Model()
 
-# Brut
+# Depth
 depth = DepthForSearch(model, optimize="time")
 depth.run()
 

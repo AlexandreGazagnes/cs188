@@ -63,3 +63,7 @@ class DepthForSearch:
 
         # build 2nd
         possible_dest = self.find_possible_dests(self.active_strategy[-1])
+
+        self.queued_strategies = [(self.active_strategy, i) for i in possible_dest]
+        self.queued_strategies = sorted(self.queued_strategies, key=len, reverse=True)
+        print(self.queued_strategies)
