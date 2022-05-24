@@ -1,125 +1,159 @@
 from itertools import product
-from src.modele import *
+
+# from src.modele import *
 
 
-def extract_all_town(modele):
-    """read the modele and extract all unique towns """
+class BruteForce:
 
-    cands = [(i, j) for i, j in modele.keys()]
+    ALLOWED_MAX_DEPTH = 8
 
-    all_towns = []
+    def __init__(self, model, optimize):
 
-    for i, j in [(i, j) for i, j in modele.keys()]:
-        all_towns.append(i)
-        all_towns.append(j)
+        # args
+        self.model = model
+        self.optimize = optimize
 
-    all_towns = list(set(all_towns))
+        # default attrs
+        self.all_towns = []
+        self.all_strategies = []
+        self.valid_strategies = []
+        self.modelized_strategies = []
+        self.best_strategies = []
 
-    return all_towns
+    def extract_all_town(self):
+        """read the modele and extract all unique towns """
 
+        cands = [(i, j) for i, j in self.model.trips.keys()]
 
-def cardinalize_one_depth_strategies(all_towns, depth=2):
-    """give all strategies for a certain depht (ie the number of cities visited)
-    compute cardinal product"""
+        all_towns = []
 
-    depth_max = 8
-    assert depth in range(2, depth_max)
+        for i, j in [(i, j) for i, j in self.model.trips.keys()]:
+            all_towns.append(i)
+            all_towns.append(j)
 
-    depth_list = {
-        i: [
-            all_towns,
+        self.all_towns = list(set(all_towns))
+
+        return all_towns
+
+    def cardinalize_one_depth_strategies(self, depth=2):
+        """give all strategies for a certain depht (ie the number of cities visited)
+        compute cardinal product"""
+
+        assert depth in range(2, self.ALLOWED_MAX_DEPTH)
+
+        depth_list = {
+            i: [
+                self.all_towns,
+            ]
+            * i
+            for i in range(2, self.ALLOWED_MAX_DEPTH)
+        }
+
+        all_strategies = list(product(*depth_list[depth]))
+
+        # filter first and last
+        all_strategies = [s for s in all_strategies if s[0] == self.model.dep]
+        all_strategies = [s for s in all_strategies if s[-1] == self.model.dest]
+
+        all_strategies = list(set(all_strategies))
+        self.all_strategies = all_strategies
+
+        return all_strategies
+
+    def cardinalize_all_depth_strategies(self):
+        """compute carninal all possible strageiges for various depths """
+
+        depth_list = range(2, self.model.longest_path + 1)
+
+        all_strategies = []
+        for depth in depth_list:
+            all_strategies.extend(self.cardinalize_one_depth_strategies(depth))
+
+        all_strategies = list(set(all_strategies))
+        self.all_strategies = all_strategies
+
+        return all_strategies
+
+    def modelize_2(self, strategy) -> int:
+        """give a strategy compute the score """
+
+        ans = self.model.trips.get(strategy, -1)
+        if ans == -1:
+            return -1
+
+        if self.optimize == "time":
+            return ans[0]
+        if self.optimize == "cost":
+            return ans[1]
+
+        return sum(ans)
+
+    def find_possible_dests(self, dep):
+        """given a departure give all the possible destinations """
+
+        trips = [(i, j) for i, j in self.model.trips.keys()]
+        trips = [j for i, j in trips if i == dep]
+
+        return trips
+
+    def explode_strategy_in_pairs(self, strategy):
+        """transform [paris, rouen, lyon] in [(paris, rouen), (rouen,lyon )] """
+
+        return [(strategy[i], strategy[i + 1]) for i in range(len(strategy) - 1)]
+
+    def modelize_more(self, strategy: list) -> int:
+        """given a strategy with various towns, explode in pairs on town to town, then compute the score """
+
+        # check
+        assert len(strategy) > 1
+
+        # if 2
+        if len(strategy) == 2:
+            return self.modelize_2(strategy)
+
+        # else
+        strategy_pairs = self.explode_strategy_in_pairs(strategy)
+        strategy_results = [self.modelize_2(s) for s in strategy_pairs]
+
+        if -1 in strategy_results:
+            return -1
+
+        return sum(strategy_results)
+
+    def select_only_valid_strategies(self) -> list:
+        """given a list of various strategies select permited by the model possible strategies  """
+
+        ok_strategies = [
+            strategy
+            for strategy in self.all_strategies
+            if self.modelize_more(strategy) >= 0
         ]
-        * i
-        for i in range(2, depth_max)
-    }
 
-    all_strategies = list(product(*depth_list[depth]))
+        self.valid_strategies = ok_strategies
+        return ok_strategies
 
-    # filter first and last
-    all_strategies = [s for s in all_strategies if s[0] == dep]
-    all_strategies = [s for s in all_strategies if s[-1] == dest]
+    def modelize_strategies(self):
+        """given a list of validated stragies compute sthe score for each one """
 
-    return list(set(all_strategies))
+        scores = [self.modelize_more(s) for s in self.valid_strategies]
+        scores = [round(i, 4) for i in scores]
+        modelized_strategies = list(zip(scores, self.valid_strategies))
 
+        modelized_strategies = sorted(modelized_strategies)
+        self.modelized_strategies = modelized_strategies
 
-def cardinalize_various_depth_strategies(all_towns, depth_list):
-    """ """
+        return modelized_strategies
 
-    all_strategies = []
-    for depth in depth_list:
-        all_strategies.extend(cardinalize_one_depth_strategies(all_towns, depth))
+    def find_best_strategies(self):
+        """give the modelized_strategies select only those (one ore more) with the lowest score """
 
-    return list(set(all_strategies))
+        cost_min = 1_000_000_000
+        best_strategies = list()
+        for cost, strat in self.modelized_strategies:
+            if cost <= cost_min:
+                cost_min = cost
+                best_strategies.append([cost, strat])
 
+        self.best_strategies = best_strategies
 
-def modelize_2(strategy: list, optimize: str = "both") -> int:
-
-    ans = modele.get(strategy, -1)
-    if ans == -1:
-        return -1
-
-    if optimize == "time":
-        return ans[0]
-    if optimize == "cost":
-        return ans[1]
-
-    return sum(ans)
-
-
-def explode_strategy_in_pairs(strategy):
-    """transform [paris, rouen, lyon] in [(paris, rouen), (rouen,lyon )] """
-
-    return [(strategy[i], strategy[i + 1]) for i in range(len(strategy) - 1)]
-
-
-def modelize_more(strategy: list, optimize: str = "time") -> int:
-    """ """
-
-    # check
-    assert len(strategy) > 1
-
-    # if 2
-    if len(strategy) == 2:
-        return modelize_2(strategy, optimize=optimize)
-
-    # else
-    strategy_pairs = explode_strategy_in_pairs(strategy)
-    strategy_results = [modelize_2(s, optimize=optimize) for s in strategy_pairs]
-
-    if -1 in strategy_results:
-        return -1
-
-    return sum(strategy_results)
-
-
-def select_only_valid_strategies(strategies_list: list) -> list:
-    """ """
-
-    ok_strategies = [
-        strategy for strategy in strategies_list if modelize_more(strategy) >= 0
-    ]
-
-    return ok_strategies
-
-
-def modelize_strategies(strategies_list, optimize="time"):
-    """ """
-
-    scores = [modelize_more(s, optimize=optimize) for s in strategies_list]
-    scores = [round(i, 4) for i in scores]
-    modelized_strategies = list(zip(scores, strategies_list))
-
-    return sorted(modelized_strategies)
-
-
-def find_best_strategies(modelized_strategies):
-    """ """
-
-    cost_min = 1_000_000
-    best_strategies = list()
-    for cost, strat in modelized_strategies:
-        if cost <= cost_min:
-            cost_min = cost
-            best_strategies.append([cost, strat])
-
-    return best_strategies
+        return best_strategies
