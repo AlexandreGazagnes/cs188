@@ -72,13 +72,30 @@ class DepthForSearch:
     def update_queue(self):
         """ """
 
+        print("update_queue")
         possible_dest = self.find_possible_dests(self.active_strategy[-1])
         update = lambda i: (self.active_strategy, [i])
         li = [update(i) for i in possible_dest]
         li = [tuple(flatten(i)) for i in li]
         li = sorted(li, key=len, reverse=True)
 
-        self.queued_strategies = li
+        if len(li) >= 1:
+            self.queued_strategies = li + self.queued_strategies
+
+    def extract_first_queue_to_active(self):
+        """ """
+
+        pprint("-- extract_first_queue_to_active --")
+        pprint("BEFORE")
+        pprint(self.queued_strategies)
+        self.active_strategy = self.queued_strategies[0]
+        pprint(self.active_strategy)
+
+        if len(self.queued_strategies) >= 1:
+            self.queued_strategies = self.queued_strategies[1:]
+
+        pprint("AFTER")
+        pprint(self.queued_strategies)
 
     def log(self):
         """ """
@@ -96,13 +113,6 @@ class DepthForSearch:
             logging.warning(f"len active_strategy is {len(li)} ")
 
         logging.warning("\n\n\n\n")
-
-    def extract_first_queue_to_active(self):
-        """ """
-
-        self.active_strategy = self.queued_strategies[0]
-        if len(self.queued_strategies) >= 1:
-            self.queued_strategies = self.queued_strategies[1:]
 
     def run(self):
         """ """
