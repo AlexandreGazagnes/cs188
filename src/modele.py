@@ -19,7 +19,7 @@ modele = {
     ("paris", "versailles"): (0.6, 0),
     # level 2
     ("paris", "bonniere"): (2, 10),
-    ("versailles", "bonniere"): (1.5, 0),
+    ("versailles", "bonniere"): (1.5, 10),
     ("lyon", "bonniere"): (5, 35),
     ("paris", "montargis"): (1.5, 0),
     ("versailles", "montargis"): (1.2, 0),
