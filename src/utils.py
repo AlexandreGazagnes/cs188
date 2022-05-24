@@ -22,7 +22,7 @@ def cardinalize_one_depth_strategies(all_towns, depth=2):
     """give all strategies for a certain depht (ie the number of cities visited)
     compute cardinal product"""
 
-    depth_max = 6
+    depth_max = 8
     assert depth in range(2, depth_max)
 
     depth_list = {
@@ -52,8 +52,18 @@ def cardinalize_various_depth_strategies(all_towns, depth_list):
     return list(set(all_strategies))
 
 
-def modelize_2(strategy: list) -> int:
-    return modele.get(strategy, -1)
+def modelize_2(strategy: list, optimize: str = "both") -> int:
+
+    ans = modele.get(strategy, -1)
+    if ans == -1:
+        return -1
+
+    if optimize == "time":
+        return ans[0]
+    if optimize == "cost":
+        return ans[1]
+
+    return sum(ans)
 
 
 def explode_strategy_in_pairs(strategy):
@@ -62,7 +72,7 @@ def explode_strategy_in_pairs(strategy):
     return [(strategy[i], strategy[i + 1]) for i in range(len(strategy) - 1)]
 
 
-def modelize_more(strategy: list) -> int:
+def modelize_more(strategy: list, optimize: str = "time") -> int:
     """ """
 
     # check
@@ -70,11 +80,11 @@ def modelize_more(strategy: list) -> int:
 
     # if 2
     if len(strategy) == 2:
-        return modelize_2(strategy)
+        return modelize_2(strategy, optimize=optimize)
 
     # else
     strategy_pairs = explode_strategy_in_pairs(strategy)
-    strategy_results = [modelize_2(s) for s in strategy_pairs]
+    strategy_results = [modelize_2(s, optimize=optimize) for s in strategy_pairs]
 
     if -1 in strategy_results:
         return -1
@@ -86,16 +96,30 @@ def select_only_valid_strategies(strategies_list: list) -> list:
     """ """
 
     ok_strategies = [
-        strategy for strategy in strategies_list if modelize_more(strategy) > 0
+        strategy for strategy in strategies_list if modelize_more(strategy) >= 0
     ]
 
     return ok_strategies
 
 
-def find_best_strat(strategies_list):
+def modelize_strategies(strategies_list, optimize="time"):
     """ """
 
-    scores = [modelize_more((s)) for s in strategies_list]
-    best_strategies = list(zip(scores, strategies_list))
+    scores = [modelize_more(s, optimize=optimize) for s in strategies_list]
+    scores = [round(i, 4) for i in scores]
+    modelized_strategies = list(zip(scores, strategies_list))
 
-    return sorted(best_strategies)
+    return sorted(modelized_strategies)
+
+
+def find_best_strategies(modelized_strategies):
+    """ """
+
+    cost_min = 1_000_000
+    best_strategies = list()
+    for cost, strat in modelized_strategies:
+        if cost <= cost_min:
+            cost_min = cost
+            best_strategies.append([cost, strat])
+
+    return best_strategies
