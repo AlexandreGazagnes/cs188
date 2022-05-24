@@ -26,36 +26,36 @@ class BreadthFirstSearch(TreeSearch):
         if len(li) >= 1:
             self.queued_strategies = li + self.queued_strategies
 
-    def extract_first_queue_to_active(self):
-        """ """
+    # def extract_first_queue_to_active(self):
+    #     """ """
 
-        pprint("-- extract_first_queue_to_active --")
-        pprint("BEFORE")
-        pprint(self.queued_strategies)
-        self.active_strategy = self.queued_strategies[0]
-        pprint(self.active_strategy)
+    #     pprint("-- extract_first_queue_to_active --")
+    #     pprint("BEFORE")
+    #     pprint(self.queued_strategies)
+    #     self.active_strategy = self.queued_strategies[0]
+    #     pprint(self.active_strategy)
 
-        if len(self.queued_strategies) >= 1:
-            self.queued_strategies = self.queued_strategies[1:]
+    #     if len(self.queued_strategies) >= 1:
+    #         self.queued_strategies = self.queued_strategies[1:]
 
-        pprint("AFTER")
-        pprint(self.queued_strategies)
+    #     pprint("AFTER")
+    #     pprint(self.queued_strategies)
 
-    def run(self):
-        """ """
+    # def run(self):
+    #     """ """
 
-        # Level 0
-        self.extract_first_queue_to_active()
-        self.eval_strategy()
-        self.log()
-        if self.found * self.confirmed:
-            raise ArithmeticError("solution found ")
+    #     # Level 0
+    #     self.extract_first_queue_to_active()
+    #     self.eval_strategy()
+    #     self.log()
+    #     if self.found * self.confirmed:
+    #         raise ArithmeticError("solution found ")
 
-        # level 1
-        while not (self.found * self.confirmed):
-            self.update_queue()
-            self.extract_first_queue_to_active()
-            self.eval_strategy()
-            self.log()
-            if self.found * self.confirmed:
-                raise ArithmeticError("solution found ")
+    #     # level 1
+    #     while not (self.found * self.confirmed):
+    #         self.update_queue()
+    #         self.extract_first_queue_to_active()
+    #         self.eval_strategy()
+    #         self.log()
+    #         if self.found * self.confirmed:
+    #             raise ArithmeticError("solution found ")
