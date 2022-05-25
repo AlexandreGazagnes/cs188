@@ -66,9 +66,6 @@ class BreadthFirstSearch(TreeSearch):
             for s in self.queued_strategies:
                 self.active_strategy = s
                 self.eval_strategy()
-                # self.log()
-                if self.found * self.confirmed:
-                    raise ArithmeticError("solution found ")
 
             li = [i for i in self.evaluated_strategies if len(i) == self.current_depth]
             print(f"IN LOOP FOR evalueated srategies : {self.evaluated_strategies}")
@@ -76,5 +73,6 @@ class BreadthFirstSearch(TreeSearch):
 
             self.queued_strategies = li
             self.log()
-            if self.current_depth > 10:
-                break
+
+            if self.found * self.confirmed:
+                raise ArithmeticError("solution found ")
