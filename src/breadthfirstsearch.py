@@ -17,45 +17,64 @@ class BreadthFirstSearch(TreeSearch):
         """ """
 
         print("update_queue")
-        possible_dest = self.find_possible_dests(self.active_strategy[-1])
-        update = lambda i: (self.active_strategy, [i])
-        li = [update(i) for i in possible_dest]
-        li = [tuple(flatten(i)) for i in li]
-        li = sorted(li, key=len, reverse=True)
 
-        if len(li) >= 1:
-            self.queued_strategies = li + self.queued_strategies
+        LI = []
+        for strat in self.queued_strategies:
+            possible_dest = self.find_possible_dests(strat[-1])
+            update = lambda i: (strat, [i])
+            li = [update(i) for i in possible_dest]
+            li = [tuple(flatten(i)) for i in li]
+            LI.extend(li)
 
-    # def extract_first_queue_to_active(self):
-    #     """ """
+        self.queued_strategies = LI
 
-    #     pprint("-- extract_first_queue_to_active --")
-    #     pprint("BEFORE")
-    #     pprint(self.queued_strategies)
-    #     self.active_strategy = self.queued_strategies[0]
-    #     pprint(self.active_strategy)
+    def extract_first_queue_to_active(self):
+        """ """
 
-    #     if len(self.queued_strategies) >= 1:
-    #         self.queued_strategies = self.queued_strategies[1:]
+        pprint("-- extract_first_queue_to_active --")
+        pprint("BEFORE")
+        pprint(self.queued_strategies)
+        self.active_strategy = self.queued_strategies[0]
+        pprint(self.active_strategy)
 
-    #     pprint("AFTER")
-    #     pprint(self.queued_strategies)
+        if len(self.queued_strategies) >= 1:
+            self.queued_strategies = self.queued_strategies[1:]
 
-    # def run(self):
-    #     """ """
+        pprint("AFTER")
+        pprint(self.queued_strategies)
 
-    #     # Level 0
-    #     self.extract_first_queue_to_active()
-    #     self.eval_strategy()
-    #     self.log()
-    #     if self.found * self.confirmed:
-    #         raise ArithmeticError("solution found ")
+    def run(self):
+        """ """
 
-    #     # level 1
-    #     while not (self.found * self.confirmed):
-    #         self.update_queue()
-    #         self.extract_first_queue_to_active()
-    #         self.eval_strategy()
-    #         self.log()
-    #         if self.found * self.confirmed:
-    #             raise ArithmeticError("solution found ")
+        # Level 1
+        self.current_depth = 1
+        self.extract_first_queue_to_active()
+        self.eval_strategy()
+
+        if self.found * self.confirmed:
+            raise ArithmeticError("solution found ")
+        li = [i for i in self.evaluated_strategies if len(i) == self.current_depth]
+        self.queued_strategies = li
+        self.log()
+
+        # level 1
+        while not (self.found * self.confirmed):
+            self.update_queue()
+            self.current_depth += 1
+            print(f"BEFORE LOOOP FOR self.self.current_depth  = {self.current_depth }")
+            print(f"BEFORE LOOOP FOR self.queued_strategies = {self.queued_strategies}")
+            for s in self.queued_strategies:
+                self.active_strategy = s
+                self.eval_strategy()
+                # self.log()
+                if self.found * self.confirmed:
+                    raise ArithmeticError("solution found ")
+
+            li = [i for i in self.evaluated_strategies if len(i) == self.current_depth]
+            print(f"IN LOOP FOR evalueated srategies : {self.evaluated_strategies}")
+            print(f"IN LOOOP FOR li = {li}")
+
+            self.queued_strategies = li
+            self.log()
+            if self.current_depth > 10:
+                break

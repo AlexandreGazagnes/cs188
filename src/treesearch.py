@@ -22,7 +22,7 @@ class TreeSearch:
         self.evaluated_strategies = []
         self.winning_strategies = []
 
-        self.current_depth = -1
+        self.current_depth = 1
 
         self.found = 0
         self.confirmed = 0

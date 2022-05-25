@@ -13,7 +13,7 @@ def main():
     model = Model()
 
     # Depth
-    depth = DepthFirstSearch(model, optimize="time")
+    depth = BreadthFirstSearch(model, optimize="time")
     depth.run()
 
 
