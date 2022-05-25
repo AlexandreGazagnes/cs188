@@ -71,3 +71,51 @@ class TreeSearch:
             logging.warning(f"len active_strategy is {len(li)} ")
 
         logging.warning("\n\n\n\n")
+
+    def modelize_2(self, strategy) -> int:
+        """give a strategy compute the score """
+
+        ans = self.model.trips.get(strategy, -1)
+        if ans == -1:
+            return -1
+
+        if self.optimize == "trips":
+            return ans[0]
+        if self.optimize == "time":
+            return ans[1]
+        if self.optimize == "cost":
+            return ans[2]
+        if self.optimize == "trips-time":
+            return ans[0] + ans[1]
+        if self.optimize == "trips-cost":
+            return ans[0] + ans[2]
+        if self.optimize == "time-cost":
+            return ans[1] + ans[2]
+        if self.optimize == "all":
+            return sum(ans)
+
+        raise AttributeError("optimize funct not allowed")
+
+    def explode_strategy_in_pairs(self, strategy):
+        """transform [paris, rouen, lyon] in [(paris, rouen), (rouen,lyon )] """
+
+        return [(strategy[i], strategy[i + 1]) for i in range(len(strategy) - 1)]
+
+    def modelize(self, strategy: list) -> int:
+        """given a strategy with various towns, explode in pairs on town to town, then compute the score """
+
+        # check
+        assert len(strategy) > 1
+
+        # if 2
+        if len(strategy) == 2:
+            return self.modelize_2(strategy)
+
+        # else
+        strategy_pairs = self.explode_strategy_in_pairs(strategy)
+        strategy_results = [self.modelize_2(s) for s in strategy_pairs]
+
+        if -1 in strategy_results:
+            return -1
+
+        return sum(strategy_results)

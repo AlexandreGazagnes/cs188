@@ -5,7 +5,7 @@ from src.utils import *
 from src.treesearch import TreeSearch
 
 
-class UniformFirstSearch(TreeSearch):
+class UniformCostSearch(TreeSearch):
     """ """
 
     def __init__(self, model, optimize):
@@ -13,58 +13,54 @@ class UniformFirstSearch(TreeSearch):
 
         TreeSearch.__init__(self, model, optimize)
 
+        self.reference_cost = 0
 
-#     def update_queue(self):
-#         """ """
+    def update_queue(self):
+        """ """
 
-#         print("update_queue")
+        # possible_dest
+        possible_dest = self.find_possible_dests(self.active_strategy[-1])
 
-#         # reload the empty queue for the past level of depht
-#         self.queued_strategies = [
-#             i for i in self.evaluated_strategies if len(i) == self.current_depth
-#         ]
+        # new strats
+        update = lambda i: (self.active_strategy, [i])
+        new_strats = [update(i) for i in possible_dest]
+        new_strats = [tuple(flatten(i)) for i in new_strats]
 
-#         LI = []
-#         # for each strat of the "old" queue find all dest
-#         for strat in self.queued_strategies:
-#             possible_dest = self.find_possible_dests(strat[-1])
-#             update = lambda i: (strat, [i])
-#             li = [update(i) for i in possible_dest]
-#             li = [tuple(flatten(i)) for i in li]
-#             LI.extend(li)
+        # update the queue
+        if len(new_strats) >= 1:
+            self.queued_strategies = new_strats + self.queued_strategies
 
-#         self.queued_strategies = LI
+        # cost_strat_pairs
+        cost_strat_pairs = [(self.modelize(i), i) for i in self.queued_strategies]
+        pprint(cost_strat_pairs)
+        cost_strat_pairs = sorted(cost_strat_pairs, key=lambda i: i[0], reverse=False)
+        sorted_new_start = [j for i, j in cost_strat_pairs]
 
-#     def extract_first_queue_to_active(self):
-#         """ """
+        self.queued_strategies = sorted_new_start
 
-#         self.active_strategy = self.queued_strategies[0]
+    def extract_first_queue_to_active(self):
+        """ """
 
-#         if len(self.queued_strategies) >= 1:
-#             self.queued_strategies = self.queued_strategies[1:]
+        self.active_strategy = self.queued_strategies[0]
 
-#     def run(self):
-#         """ """
+        if len(self.queued_strategies) >= 1:
+            self.queued_strategies = self.queued_strategies[1:]
 
-#         # Level 1
-#         self.current_depth = 1
-#         self.extract_first_queue_to_active()
-#         self.eval_strategy()
-#         if self.found * self.confirmed:
-#             raise ArithmeticError("solution found ")
-#         self.log()
+    def run(self):
+        """ """
 
-#         # level N
-#         while not (self.found * self.confirmed):
-#             self.update_queue()
-#             self.current_depth += 1
+        # Level 0
+        self.extract_first_queue_to_active()
+        self.eval_strategy()
+        self.log()
+        if self.found * self.confirmed:
+            raise ArithmeticError("solution found ")
 
-#             for strat in self.queued_strategies:
-#                 self.active_strategy = strat
-#                 self.eval_strategy()
-
-#                 if self.found * self.confirmed:
-#                     self.log()
-#                     raise ArithmeticError("solution found ")
-
-#             self.log()
+        # level 1
+        while not (self.found * self.confirmed):
+            self.update_queue()
+            self.extract_first_queue_to_active()
+            self.eval_strategy()
+            self.log()
+            if self.found * self.confirmed:
+                raise ArithmeticError("solution found ")

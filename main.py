@@ -1,22 +1,56 @@
 import logging
 from pprint import pprint, pformat
 
-from src.modele import Model
+from src.model import *
 from src.bruteforce import BruteForce
 from src.depthfirstsearch import DepthFirstSearch
 from src.breadthfirstsearch import BreadthFirstSearch
+from src.uniformcostsearch import UniformCostSearch
 
 
-def main():
+def ucs(optimize="time"):
+    """ """
 
     try:
-        model = Model()
-        depth = DepthFirstSearch(model, optimize="trips")
-        depth.run()
+        model = ModelCourse()
+        search = UniformCostSearch(model, optimize=optimize)
+        search.run()
     except Exception as e:
         logging.critical(e)
 
-    return depth.evaluated_strategies
+    return search.evaluated_strategies
+
+
+def bfs():
+    """ """
+
+    try:
+        model = Model()
+        search = BreadthFirstSearch(model, optimize="trips")
+        search.run()
+    except Exception as e:
+        logging.critical(e)
+
+    return search.evaluated_strategies
+
+
+def dfs():
+    """ """
+
+    try:
+        model = Model()
+        search = DepthFirstSearch(model, optimize="trips")
+        search.run()
+    except Exception as e:
+        logging.critical(e)
+
+    return search.evaluated_strategies
+
+
+def bf():
+    """ """
+
+    pass
 
 
 def compute_heuristic():
@@ -56,4 +90,5 @@ def compute_heuristic():
 
 if __name__ == "__main__":
 
-    print(main())
+    result = ucs()
+    print(result)
