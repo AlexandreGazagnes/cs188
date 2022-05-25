@@ -2,7 +2,43 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Model:
+class ModelCourse:
+    """ """
+
+    trips = {
+        # (DEP,DEST) : (STEPS, TIME, COST)
+        # level 1
+        ("start", "d"): (3, 3, 3),
+        ("start", "e"): (9, 9, 9),
+        ("start", "p"): (1, 1, 1),
+        # level 2
+        ("d", "b"): (1, 1, 1),
+        ("d", "c"): (8, 8, 8),
+        ("d", "e"): (2, 2, 2),
+        ("e", "r"): (2, 2, 2),
+        ("e", "h"): (8, 8, 8),
+        ("p", "q"): (15, 15, 15),
+        # level 3
+        ("b", "a"): (2, 2, 2),
+        ("c", "a"): (2, 2, 2),
+        ("r", "f"): (2, 2, 2),
+        ("f", "c"): (3, 3, 3),
+        ("h", "q"): (4, 4, 4),
+        ("h", "p"): (4, 4, 4),
+        # level 4
+        ("f", "goal"): (2, 2, 2),
+    }
+
+    heuristic = {}
+    dep = "start"
+    dest = "goal"
+    # shortest_path = 3
+    # longest_path = 7
+    # valid_strategies = 7
+
+
+@dataclass
+class ModelPerso:
     """ """
 
     trips = {
