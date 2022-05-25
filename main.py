@@ -7,20 +7,18 @@ from src.depthfirstsearch import DepthFirstSearch
 from src.breadthfirstsearch import BreadthFirstSearch
 
 
-def main():
+def main(optimize):
 
     # Model
     model = Model()
 
     # Depth
-    depth = BreadthFirstSearch(model, optimize="time")
+    depth = BruteForce(model, optimize=optimize)
     depth.run()
 
 
 if __name__ == "__main__":
 
-    main()
-
-    # for opt in ["time", "cost", "both"]:
-    #     logging.warning(f"\n\n\ncost to optpimize is -- {opt.upper()} --\n{'-'*54}")
-    #     print(f"best for {opt} --> {main(optimize=opt)}")
+    for opt in ["trips", "time", "cost", "trips-time", "trips-cost", "time-cost", "all"]:
+        logging.warning(f"\n\n\ncost to optpimize is -- {opt.upper()} --\n{'-'*54}")
+        print(f"best for {opt} --> {main(optimize=opt)}")

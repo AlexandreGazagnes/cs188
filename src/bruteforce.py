@@ -75,12 +75,22 @@ class BruteForce:
         if ans == -1:
             return -1
 
-        if self.optimize == "time":
+        if self.optimize == "trips":
             return ans[0]
-        if self.optimize == "cost":
+        if self.optimize == "time":
             return ans[1]
+        if self.optimize == "cost":
+            return ans[2]
+        if self.optimize == "trips-time":
+            return ans[0] + ans[1]
+        if self.optimize == "trips-cost":
+            return ans[0] + ans[2]
+        if self.optimize == "time-cost":
+            return ans[1] + ans[2]
+        if self.optimize == "all":
+            return sum(ans)
 
-        return sum(ans)
+        raise AttributeError("optimize funct not allowed")
 
     def find_possible_dests(self, dep):
         """given a departure give all the possible destinations """
