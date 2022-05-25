@@ -164,9 +164,9 @@ class BruteForce:
     def log(self):
         """ """
         for attr in [
-            "all_towns",
-            "valid_strategies",
-            "modelized_strategies",
+            # "all_towns",
+            # "valid_strategies",
+            # "modelized_strategies",
             "best_strategies",
         ]:
 

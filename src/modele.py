@@ -28,11 +28,12 @@ class Model:
     }
 
     heuristic = {
-        "rouen": (4, 2.9, 0),
-        "paris": (3, 2.2, 0),
-        "versailles": (3, 1.9, 0),
-        "dieppe": (-1, -1, -1),
-        "lyon": (2, 0.15, 0),
+        # TOWN : (STEPS, TIME, COST)
+        "rouen": (3, 2.7, 10),
+        "paris": (3, 2.05, 0),
+        "versailles": (3, 1.7, 0),
+        "dieppe": (1_000_000, 1_000_000, 1_000_000),
+        "lyon": (2, 5.15, 35),
         "montargis": (3, 0.55, 0),
         "nogent": (2, 0.2, 0),
         "chatillon": (1, 0.1, 0),
@@ -42,6 +43,6 @@ class Model:
 
     dep = "rouen"
     dest = "bonniere"
-    shortest_path = 3
+    # shortest_path = 3
     longest_path = 7
     valid_strategies = 7
