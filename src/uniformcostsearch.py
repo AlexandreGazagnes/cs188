@@ -1,17 +1,18 @@
-# import logging
-# from pprint import *
-# from src.utils import *
+import logging
+from pprint import *
+from src.utils import *
 
-# from src.treesearch import TreeSearch
+from src.treesearch import TreeSearch
 
 
-# class BreadthFirstSearch(TreeSearch):
-#     """ """
+class UniformFirstSearch(TreeSearch):
+    """ """
 
-#     def __init__(self, model, optimize):
-#         """ """
+    def __init__(self, model, optimize):
+        """ """
 
-#         TreeSearch.__init__(self, model, optimize)
+        TreeSearch.__init__(self, model, optimize)
+
 
 #     def update_queue(self):
 #         """ """
