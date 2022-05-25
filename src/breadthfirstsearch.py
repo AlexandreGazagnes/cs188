@@ -51,7 +51,6 @@ class BreadthFirstSearch(TreeSearch):
         self.eval_strategy()
         if self.found * self.confirmed:
             raise ArithmeticError("solution found ")
-
         self.log()
 
         # level N
