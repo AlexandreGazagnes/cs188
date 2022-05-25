@@ -20,6 +20,17 @@ class BruteForce:
         self.modelized_strategies = []
         self.best_strategies = []
 
+    @property
+    def best_score(self):
+        """ """
+
+        if len(self.best_strategies) >= 1:
+
+            li = [i for i, j in self.best_strategies]
+            return min(li)
+
+        return -1
+
     def extract_all_town(self):
         """read the modele and extract all unique towns """
 

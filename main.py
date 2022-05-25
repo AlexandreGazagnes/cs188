@@ -7,18 +7,41 @@ from src.depthfirstsearch import DepthFirstSearch
 from src.breadthfirstsearch import BreadthFirstSearch
 
 
-def main(optimize):
+def compute_heuristic():
+    """compute heuristic for every goal """
 
-    # Model
-    model = Model()
+    for dep in (
+        "rouen",
+        "lyon",
+        "paris",
+        "versailles",
+        "montargis",
+        "nogent",
+        "chatillon",
+        "saint-maurice",
+    ):
 
-    # Depth
-    depth = BruteForce(model, optimize=optimize)
-    depth.run()
+        result_list = []
+        for optimize in ["trips", "time", "cost"]:
+
+            # Model
+            model = Model()
+            model.dep = dep
+
+            # BruteForce
+            brute = BruteForce(model, optimize=optimize)
+
+            # run
+            brute.run()
+
+            # reuslt
+            result_list.append(brute.best_score)
+
+        print(f"dep : {dep} - heuristic : {result_list}")
+
+    return None
 
 
 if __name__ == "__main__":
 
-    for opt in ["trips", "time", "cost", "trips-time", "trips-cost", "time-cost", "all"]:
-        logging.warning(f"\n\n\ncost to optpimize is -- {opt.upper()} --\n{'-'*54}")
-        print(f"best for {opt} --> {main(optimize=opt)}")
+    compute_heuristic()

@@ -30,15 +30,19 @@ class Model:
     heuristic = {
         # TOWN : (STEPS, TIME, COST)
         "rouen": (3, 2.7, 10),
+        #
+        "lyon": (2, 5.15, 35),
+        "saint-maurice": (1, 0.15, 0),
+        #
         "paris": (3, 2.05, 0),
         "versailles": (3, 1.7, 0),
-        "dieppe": (1_000_000, 1_000_000, 1_000_000),
-        "lyon": (2, 5.15, 35),
+        #
         "montargis": (3, 0.55, 0),
         "nogent": (2, 0.2, 0),
         "chatillon": (1, 0.1, 0),
-        "saint-maurice": (1, 0.15, 0),
+        #
         "bonniere": (0, 0, 0),
+        "dieppe": (1_000_000, 1_000_000, 1_000_000),
     }
 
     dep = "rouen"
