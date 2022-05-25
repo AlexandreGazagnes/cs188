@@ -7,6 +7,18 @@ from src.depthfirstsearch import DepthFirstSearch
 from src.breadthfirstsearch import BreadthFirstSearch
 
 
+def main():
+
+    try:
+        model = Model()
+        depth = DepthFirstSearch(model, optimize="trips")
+        depth.run()
+    except Exception as e:
+        logging.critical(e)
+
+    return depth.evaluated_strategies
+
+
 def compute_heuristic():
     """compute heuristic for every goal """
 
@@ -44,4 +56,4 @@ def compute_heuristic():
 
 if __name__ == "__main__":
 
-    compute_heuristic()
+    print(main())

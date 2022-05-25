@@ -39,7 +39,7 @@ class TreeSearch:
         """ """
 
         strat = self.active_strategy
-        print(f"evaluating {strat}")
+        # print(f"evaluating {strat}")
 
         self.evaluated_strategies.append(strat)
 
