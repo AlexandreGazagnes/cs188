@@ -17,3 +17,7 @@ CHANGELOG :
 
 - v0.2.0 : 
 - - use class for everything
+
+- v0.3.0 : 
+- - implement breadth and depth first search 
+- - very light update of the model  
