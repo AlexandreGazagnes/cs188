@@ -6,17 +6,15 @@ from src.treesearch import TreeSearch
 
 
 class BreadthFirstSearch(TreeSearch):
-    """ """
+    """class Breadth First Search """
 
-    def __init__(self, model, optimize):
-        """ """
+    def __init__(self, model: object, optimize: str):
+        """init method"""
 
         TreeSearch.__init__(self, model, optimize)
 
     def update_queue(self):
         """ """
-
-        print("update_queue")
 
         # reload the empty queue for the past level of depht
         self.queued_strategies = [
@@ -43,7 +41,7 @@ class BreadthFirstSearch(TreeSearch):
             self.queued_strategies = self.queued_strategies[1:]
 
     def run(self):
-        """ """
+        """run a search """
 
         # Level 1
         self.current_depth = 1
