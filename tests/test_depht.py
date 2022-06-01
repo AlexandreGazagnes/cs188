@@ -1,18 +1,25 @@
 import pytest
+import logging
+
 from src.model import *
+from src.search import *
 
 
-li = [
-    (Model(course_model), ["a", "b", "c"]),
-    (Model(perso_model), ["a", "b", "c"]),
-]
+model_list = [course_model, perso_model]
 
 
-@pytest.mark.parametrize("model,ans", li)
-def test_deph(model, ans):
+@pytest.mark.parametrize("model", model_list)
+def test_deph(model):
     """ """
 
-    return 1
+    try:
+        model = Model(**model)
+        search = DepthFirstSearch(model, optimize="trips")
+        search.run()
+    except Exception as e:
+        raise logging.critical(e)
+
+        return search.evaluated_strategies
 
 
 ans = [
