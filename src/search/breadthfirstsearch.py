@@ -2,7 +2,7 @@ import logging
 from pprint import *
 from src.utils import *
 
-from src.treesearch import TreeSearch
+from src.search.treesearch import TreeSearch
 
 
 class BreadthFirstSearch(TreeSearch):

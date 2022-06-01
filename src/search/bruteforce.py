@@ -31,27 +31,27 @@ class BruteForce:
 
         return -1
 
-    def extract_all_town(self):
-        """read the modele and extract all unique towns """
+    # def extract_all_town(self):
+    #     """read the modele and extract all unique towns """
 
-        cands = [(i, j) for i, j in self.model.trips.keys()]
+    #     cands = [(i, j) for i, j in self.model.trips.keys()]
 
-        all_towns = []
+    #     all_towns = []
 
-        for i, j in [(i, j) for i, j in self.model.trips.keys()]:
-            all_towns.append(i)
-            all_towns.append(j)
+    #     for i, j in [(i, j) for i, j in self.model.trips.keys()]:
+    #         all_towns.append(i)
+    #         all_towns.append(j)
 
-        self.all_towns = list(set(all_towns))
+    #     self.all_towns = list(set(all_towns))
 
-        return all_towns
+    #     return all_towns
 
     def cardinalize_one_depth_strategies(self, depth=2):
         """give all strategies for a certain depht (ie the number of cities visited)
         compute cardinal product"""
 
         strat_list = [
-            self.all_towns,
+            self.model.all_towns,
         ] * depth
 
         all_strategies = list(product(*strat_list))

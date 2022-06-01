@@ -2,10 +2,10 @@ import logging
 from pprint import *
 from src.utils import *
 
-from src.treesearch import TreeSearch
+from src.search.treesearch import TreeSearch
 
 
-class DepthFirstSearch(TreeSearch):
+class UniformCostSearch(TreeSearch):
     """ """
 
     def __init__(self, model, optimize):
@@ -13,33 +13,38 @@ class DepthFirstSearch(TreeSearch):
 
         TreeSearch.__init__(self, model, optimize)
 
+        self.reference_cost = 0
+
     def update_queue(self):
         """ """
 
-        # print("update_queue")
+        # possible_dest
         possible_dest = self.find_possible_dests(self.active_strategy[-1])
-        update = lambda i: (self.active_strategy, [i])
-        li = [update(i) for i in possible_dest]
-        li = [tuple(flatten(i)) for i in li]
-        li = sorted(li, key=len, reverse=True)
 
-        if len(li) >= 1:
-            self.queued_strategies = li + self.queued_strategies
+        # new strats
+        update = lambda i: (self.active_strategy, [i])
+        new_strats = [update(i) for i in possible_dest]
+        new_strats = [tuple(flatten(i)) for i in new_strats]
+
+        # update the queue
+        if len(new_strats) >= 1:
+            self.queued_strategies = new_strats + self.queued_strategies
+
+        # cost_strat_pairs
+        cost_strat_pairs = [(self.modelize(i), i) for i in self.queued_strategies]
+        pprint(cost_strat_pairs)
+        cost_strat_pairs = sorted(cost_strat_pairs, key=lambda i: i[0], reverse=False)
+        sorted_new_start = [j for i, j in cost_strat_pairs]
+
+        self.queued_strategies = sorted_new_start
 
     def extract_first_queue_to_active(self):
         """ """
 
-        # pprint("-- extract_first_queue_to_active --")
-        # pprint("BEFORE")
-        # pprint(self.queued_strategies)
         self.active_strategy = self.queued_strategies[0]
-        # pprint(self.active_strategy)
 
         if len(self.queued_strategies) >= 1:
             self.queued_strategies = self.queued_strategies[1:]
-
-        # pprint("AFTER")
-        # pprint(self.queued_strategies)
 
     def run(self):
         """ """
