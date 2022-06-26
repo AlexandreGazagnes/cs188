@@ -20,27 +20,38 @@ class BruteForce:
         self.modelized_strategies = []
         self.best_strategies = []
 
-    def extract_all_town(self):
-        """read the modele and extract all unique towns """
+    @property
+    def best_score(self):
+        """ """
 
-        cands = [(i, j) for i, j in self.model.trips.keys()]
+        if len(self.best_strategies) >= 1:
 
-        all_towns = []
+            li = [i for i, j in self.best_strategies]
+            return min(li)
 
-        for i, j in [(i, j) for i, j in self.model.trips.keys()]:
-            all_towns.append(i)
-            all_towns.append(j)
+        return -1
 
-        self.all_towns = list(set(all_towns))
+    # def extract_all_town(self):
+    #     """read the modele and extract all unique towns """
 
-        return all_towns
+    #     cands = [(i, j) for i, j in self.model.trips.keys()]
+
+    #     all_towns = []
+
+    #     for i, j in [(i, j) for i, j in self.model.trips.keys()]:
+    #         all_towns.append(i)
+    #         all_towns.append(j)
+
+    #     self.all_towns = list(set(all_towns))
+
+    #     return all_towns
 
     def cardinalize_one_depth_strategies(self, depth=2):
         """give all strategies for a certain depht (ie the number of cities visited)
         compute cardinal product"""
 
         strat_list = [
-            self.all_towns,
+            self.model.all_towns,
         ] * depth
 
         all_strategies = list(product(*strat_list))
@@ -75,12 +86,22 @@ class BruteForce:
         if ans == -1:
             return -1
 
-        if self.optimize == "time":
+        if self.optimize == "trips":
             return ans[0]
-        if self.optimize == "cost":
+        if self.optimize == "time":
             return ans[1]
+        if self.optimize == "cost":
+            return ans[2]
+        if self.optimize == "trips-time":
+            return ans[0] + ans[1]
+        if self.optimize == "trips-cost":
+            return ans[0] + ans[2]
+        if self.optimize == "time-cost":
+            return ans[1] + ans[2]
+        if self.optimize == "all":
+            return sum(ans)
 
-        return sum(ans)
+        raise AttributeError("optimize funct not allowed")
 
     def find_possible_dests(self, dep):
         """given a departure give all the possible destinations """
@@ -154,9 +175,9 @@ class BruteForce:
     def log(self):
         """ """
         for attr in [
-            "all_towns",
-            "valid_strategies",
-            "modelized_strategies",
+            # "all_towns",
+            # "valid_strategies",
+            # "modelized_strategies",
             "best_strategies",
         ]:
 

@@ -1,26 +1,86 @@
 import logging
 from pprint import pprint, pformat
 
-from src.modele import Model
-from src.bruteforce import BruteForce
-from src.depthfirstsearch import DepthFirstSearch
-from src.breadthfirstsearch import BreadthFirstSearch
+from src.model import *
+from src.search.bruteforce import BruteForce
+from src.search.depthfirstsearch import DepthFirstSearch
+from src.search.breadthfirstsearch import BreadthFirstSearch
+from src.search.uniformcostsearch import UniformCostSearch
 
 
-def main():
+def ucs(optimize="time"):
+    """ """
 
-    # Model
-    model = Model()
+    try:
+        model = Model(**course_model)
+        search = UniformCostSearch(model, optimize=optimize)
+        search.run()
+    except Exception as e:
+        logging.critical(e)
 
-    # Depth
-    depth = BreadthFirstSearch(model, optimize="time")
-    depth.run()
+    return search.evaluated_strategies
+
+
+def bfs():
+    """ """
+
+    try:
+        model = Model(**course_model)
+        search = BreadthFirstSearch(model, optimize="trips")
+        search.run()
+    except Exception as e:
+        logging.critical(e)
+
+    return search.evaluated_strategies
+
+
+def dfs():
+    """ """
+
+    try:
+        model = Model(**course_model)
+        search = DepthFirstSearch(model, optimize="trips")
+        search.run()
+    except Exception as e:
+        logging.critical(e)
+
+    return search.evaluated_strategies
+
+
+def bf():
+    """ """
+
+    pass
+
+
+def compute_heuristic():
+    """compute heuristic for every goal """
+
+    model = Model(**perso_model)
+    for dep in model.all_towns:
+
+        result_list = []
+        for optimize in ["trips", "time", "cost"]:
+
+            # Model
+            model.dep = dep
+
+            # BruteForce
+            brute = BruteForce(model, optimize=optimize)
+
+            # run
+            brute.run()
+
+            # reuslt
+            result_list.append(brute.best_score)
+
+        print(f"dep : {dep} - heuristic : {result_list}")
+
+    return None
 
 
 if __name__ == "__main__":
 
-    main()
-
-    # for opt in ["time", "cost", "both"]:
-    #     logging.warning(f"\n\n\ncost to optpimize is -- {opt.upper()} --\n{'-'*54}")
-    #     print(f"best for {opt} --> {main(optimize=opt)}")
+    # result = ucs()
+    # print(result)
+    pass
