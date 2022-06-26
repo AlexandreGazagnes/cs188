@@ -2,7 +2,7 @@ import logging
 from pprint import *
 from src.utils import *
 
-from src.treesearch import TreeSearch
+from src.search.treesearch import TreeSearch
 
 
 class DepthFirstSearch(TreeSearch):
@@ -16,7 +16,7 @@ class DepthFirstSearch(TreeSearch):
     def update_queue(self):
         """ """
 
-        print("update_queue")
+        # print("update_queue")
         possible_dest = self.find_possible_dests(self.active_strategy[-1])
         update = lambda i: (self.active_strategy, [i])
         li = [update(i) for i in possible_dest]
@@ -29,17 +29,17 @@ class DepthFirstSearch(TreeSearch):
     def extract_first_queue_to_active(self):
         """ """
 
-        pprint("-- extract_first_queue_to_active --")
-        pprint("BEFORE")
-        pprint(self.queued_strategies)
+        # pprint("-- extract_first_queue_to_active --")
+        # pprint("BEFORE")
+        # pprint(self.queued_strategies)
         self.active_strategy = self.queued_strategies[0]
-        pprint(self.active_strategy)
+        # pprint(self.active_strategy)
 
         if len(self.queued_strategies) >= 1:
             self.queued_strategies = self.queued_strategies[1:]
 
-        pprint("AFTER")
-        pprint(self.queued_strategies)
+        # pprint("AFTER")
+        # pprint(self.queued_strategies)
 
     def run(self):
         """ """
