@@ -43,4 +43,28 @@ perso_model = {
     # shortest_path : 3
     "longest_path": 7,
     "valid_strategies": 7,
+    #
+    "ans": {
+        "depth": [
+            "rouen",
+            "rouen--dieppe",
+            "rouen--lyon",
+            "rouen--lyon--saint-maurice",
+            "rouen--lyon--saint-maurice--bonniere",
+        ],
+        "breadth": [
+            "rouen",
+            "rouen--dieppe",
+            "rouen--lyon",
+            "rouen--paris",
+            "rouen--versailles",
+            "rouen--lyon--saint-maurice",
+            "rouen--paris--montargis",
+            "rouen--paris--nogent",
+            "rouen--paris--versailles",
+            "rouen--versailles--montargis",
+            "rouen--versailles--nogent",
+            "rouen--lyon--saint-maurice--bonniere",
+        ],
+    },
 }

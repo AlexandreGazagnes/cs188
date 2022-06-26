@@ -25,7 +25,44 @@ course_model = {
     },
     "heuristic": {},
     "dep": "s",
-    "dest": "g"
+    "dest": "g",
+    "ans": {
+        "depth": [
+            "s",
+            "s--d",
+            "s--d--b",
+            "s--d--b--a",
+            "s--d--c",
+            "s--d--c--a",
+            "s--d--e",
+            "s--d--e--h",
+            "s--d--e--h--p",
+            "s--d--e--h--p--q",
+            "s--d--e--h--q",
+            "s--d--e--r",
+            "s--d--e--r--f",
+            "s--d--e--r--f--c",
+            "s--d--e--r--f--c--a",
+            "s--d--e--r--f--g",
+        ],
+        "breadth": [
+            "s",
+            "s--d",
+            "s--e",
+            "s--p",
+            "s--d--b",
+            "s--d--c",
+            "s--d--e",
+            "s--e--h",
+            "s--e--r",
+            "s--p--q",
+            "s--d--b--a",
+            "s--d--c--a",
+            "s--d--e--h",
+            "s--d--e--r",
+            # A FINIR !!!!!!
+        ],
+    }
     # shortest_path = 3
     # longest_path = 7
     # valid_strategies = 7

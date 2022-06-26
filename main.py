@@ -2,17 +2,17 @@ import logging
 from pprint import pprint, pformat
 
 from src.model import *
-from src.bruteforce import BruteForce
-from src.depthfirstsearch import DepthFirstSearch
-from src.breadthfirstsearch import BreadthFirstSearch
-from src.uniformcostsearch import UniformCostSearch
+from src.search.bruteforce import BruteForce
+from src.search.depthfirstsearch import DepthFirstSearch
+from src.search.breadthfirstsearch import BreadthFirstSearch
+from src.search.uniformcostsearch import UniformCostSearch
 
 
 def ucs(optimize="time"):
     """ """
 
     try:
-        model = ModelCourse()
+        model = Model(**course_model)
         search = UniformCostSearch(model, optimize=optimize)
         search.run()
     except Exception as e:
@@ -25,7 +25,7 @@ def bfs():
     """ """
 
     try:
-        model = Model()
+        model = Model(**course_model)
         search = BreadthFirstSearch(model, optimize="trips")
         search.run()
     except Exception as e:
@@ -38,7 +38,7 @@ def dfs():
     """ """
 
     try:
-        model = Model()
+        model = Model(**course_model)
         search = DepthFirstSearch(model, optimize="trips")
         search.run()
     except Exception as e:
@@ -56,22 +56,13 @@ def bf():
 def compute_heuristic():
     """compute heuristic for every goal """
 
-    for dep in (
-        "rouen",
-        "lyon",
-        "paris",
-        "versailles",
-        "montargis",
-        "nogent",
-        "chatillon",
-        "saint-maurice",
-    ):
+    model = Model(**perso_model)
+    for dep in model.all_towns:
 
         result_list = []
         for optimize in ["trips", "time", "cost"]:
 
             # Model
-            model = Model()
             model.dep = dep
 
             # BruteForce
@@ -90,5 +81,6 @@ def compute_heuristic():
 
 if __name__ == "__main__":
 
-    result = ucs()
-    print(result)
+    # result = ucs()
+    # print(result)
+    pass

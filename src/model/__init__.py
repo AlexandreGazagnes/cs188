@@ -19,6 +19,7 @@ class Model:
         dest="",
         longest_path=-1,
         valid_strategies=-1,
+        ans={},
     ):
         """ """
 
@@ -27,6 +28,7 @@ class Model:
         self.heuristic = heuristic
         self.dep = dep
         self.dest = dest
+        self.ans = ans
         self.longest_path = longest_path
         self.valid_strategies = valid_strategies
 
